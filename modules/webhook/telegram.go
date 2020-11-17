@@ -28,6 +28,7 @@ type (
 	TelegramMeta struct {
 		BotToken string `json:"bot_token"`
 		ChatID   string `json:"chat_id"`
+		ApiUrl   string `json:"api_url"`
 	}
 )
 

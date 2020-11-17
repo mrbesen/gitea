@@ -10,6 +10,10 @@
       <label for="chat_id">{{.i18n.Tr "repo.settings.chat_id"}}</label>
       <input id="chat_id" name="chat_id" type="text" value="{{.TelegramHook.ChatID}}" required>
     </div>
+		<div class="required field {{if .Err_ApiUrl}}error{{end}}">
+		<label for="api_url">{{.i18n.Tr "repo.settings.api_url"}}</label>
+		<input id="api_url" name="api_url" type="text" value="{{.TelegramHook.ApiUrl}}" placeholder="https://api.telegram.org/bot" required>
+		</div>
 		{{template "repo/settings/webhook/settings" .}}
 	</form>
 {{end}}

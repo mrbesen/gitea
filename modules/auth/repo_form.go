@@ -318,6 +318,7 @@ func (f *NewDingtalkHookForm) Validate(ctx *macaron.Context, errs binding.Errors
 type NewTelegramHookForm struct {
 	BotToken string `binding:"Required"`
 	ChatID   string `binding:"Required"`
+	ApiUrl   string `binding:"Required;ValidUrl"`
 	WebhookForm
 }
 

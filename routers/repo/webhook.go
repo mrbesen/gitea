@@ -392,6 +392,7 @@ func TelegramHooksNewPost(ctx *context.Context, form auth.NewTelegramHookForm) {
 	meta, err := json.Marshal(&webhook.TelegramMeta{
 		BotToken: form.BotToken,
 		ChatID:   form.ChatID,
+		ApiUrl:   form.ApiUrl,
 	})
 	if err != nil {
 		ctx.ServerError("Marshal", err)
@@ -400,7 +401,7 @@ func TelegramHooksNewPost(ctx *context.Context, form auth.NewTelegramHookForm) {
 
 	w := &models.Webhook{
 		RepoID:          orCtx.RepoID,
-		URL:             fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage?chat_id=%s", form.BotToken, form.ChatID),
+		URL:             fmt.Sprintf("%s%s/sendMessage?chat_id=%s", form.ApiUrl, form.BotToken, form.ChatID),
 		ContentType:     models.ContentTypeJSON,
 		HookEvent:       ParseHookEvent(form.WebhookForm),
 		IsActive:        form.Active,
@@ -903,13 +904,14 @@ func TelegramHooksEditPost(ctx *context.Context, form auth.NewTelegramHookForm) 
 	meta, err := json.Marshal(&webhook.TelegramMeta{
 		BotToken: form.BotToken,
 		ChatID:   form.ChatID,
+		ApiUrl:   form.ApiUrl,
 	})
 	if err != nil {
 		ctx.ServerError("Marshal", err)
 		return
 	}
 	w.Meta = string(meta)
-	w.URL = fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage?chat_id=%s", form.BotToken, form.ChatID)
+	w.URL = fmt.Sprintf("%s%s/sendMessage?chat_id=%s", form.ApiUrl, form.BotToken, form.ChatID)
 	w.HookEvent = ParseHookEvent(form.WebhookForm)
 	w.IsActive = form.Active
 	if err := w.UpdateEvent(); err != nil {
